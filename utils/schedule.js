@@ -38,33 +38,41 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+const send = () => {
+
+    return new Promise(async (resolve) => {
+        console.log('---------------------');
+        console.log('Running Cron Job');
+        
+        const list = await getAll();
+
+        let text = '';
+        list.forEach((data) => {
+            text += `
+            <div>${data.name}</div>
+            <div>基金代码：${data.code}</div>
+            <div>建议: ${data.msg}</div>
+            <div  style="color: red">说明: ${data.desc || '-'}</div>
+        `;
+        });
+    
+        const mailOptions = {
+            from: '785424079@qq.com',
+            to: '785424079@qq.com',
+            subject: '基金速递',
+            text,
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                throw error;
+            } else {
+                console.log('Email successfully sent!');
+            }
+            resolve()
+        });
+    })
+}
 // sending emails at periodic intervals
-cron.schedule('*/1 * * * *', async () => {
-    console.log('---------------------');
-    console.log('Running Cron Job');
-    const list = await getAll();
+cron.schedule('*/1 * * * *', send);
 
-    let text = '';
-    list.forEach((data) => {
-        text += `
-        <div>${data.name}</div>
-        <div>基金代码：${data.code}</div>
-        <div>建议: ${data.msg}</div>
-        <div  style="color: red">说明: ${data.desc || '-'}</div>
-    `;
-    });
-
-    const mailOptions = {
-        from: '785424079@qq.com',
-        to: '785424079@qq.com',
-        subject: '基金速递',
-        text,
-    };
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            throw error;
-        } else {
-            console.log('Email successfully sent!');
-        }
-    });
-});
+module.exports = send;
