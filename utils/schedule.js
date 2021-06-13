@@ -39,7 +39,7 @@ const transporter = nodemailer.createTransport({
 });
 
 // sending emails at periodic intervals
-cron.schedule('*/1 * * * *', async () => {
+cron.schedule('* */1 * * *', async () => {
     console.log('---------------------');
     console.log('Running Cron Job');
     const list = await getAll();
