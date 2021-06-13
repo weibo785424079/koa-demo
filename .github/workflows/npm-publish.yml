@@ -6,7 +6,7 @@ name: Node.js Package
 on:
   push:
   schedule:
-    - cron: '*/1 * * * *'
+    - cron: '* * * * *'
 
 jobs:
   build:
