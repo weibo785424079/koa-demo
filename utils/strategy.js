@@ -23,6 +23,7 @@ const addStrategys = {
                     code: fund.code,
                     msg: '建议加仓',
                     operation: 'add',
+                    expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
                     desc: `今日预计跌幅${fund.expectGrowth}%,三天内跌幅超5%，建议加仓`,
                 };
             }
@@ -40,6 +41,7 @@ const addStrategys = {
                     code: fund.code,
                     msg: '建议加仓',
                     operation: 'add',
+                    expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
                     desc: `今日预计跌幅${fund.expectGrowth}%,昨今两天跌幅超4%，建议加仓`,
                 };
             }
@@ -58,6 +60,7 @@ const addStrategys = {
                     code: fund.code,
                     msg: '建议加仓',
                     operation: 'add',
+                    expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
                     desc: `今日预计跌幅${fund.expectGrowth}%,近三天总跌幅超4%，建议加仓`,
                 };
             }
@@ -71,6 +74,7 @@ const addStrategys = {
                 code: fund.code,
                 msg: '建议加仓',
                 operation: 'add',
+                expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
                 desc: `触发加仓规则4，今日预计跌幅${fund.expectGrowth}%, 跌幅超3%，建议小幅度加仓`,
             };
         }
@@ -90,6 +94,8 @@ const reduceStrategys = {
                     code: fund.code,
                     msg: '建议减仓',
                     operation: 'cut-down',
+                    expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
+                    expectGrowth: fund.expectGrowth,// 单位净值日涨幅,单位为百分比
                     desc: `触发减仓策略1:今日预计涨幅${fund.expectGrowth}%,今昨两天涨幅超5%，建议减仓`,
                 };
             }
@@ -108,6 +114,7 @@ const reduceStrategys = {
                     code: fund.code,
                     msg: '建议减仓',
                     operation: 'cut-down',
+                    expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
                     desc: `触发减仓策略2:今日预计涨幅${fund.expectGrowth}%,今三天总涨幅超5%，建议减仓`,
                 };
             }
@@ -138,6 +145,7 @@ const getOperation = (fund) => {
         msg: '建议卧倒',
         name: fund.name,
         code: fund.code,
+        expectGrowth: fund.expectGrowth,
     };
 };
 
