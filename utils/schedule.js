@@ -56,7 +56,6 @@ const send = () => {
             <div  style="color: red">说明: ${data.desc || '-'}</div>
         `;
         });
-    
         const mailOptions = {
             from: '785424079@qq.com',
             to: ['785424079@qq.com', '873001134@qq.com'],

@@ -16,8 +16,7 @@ const addStrategys = {
             const netWorthData = [...fund.netWorthData];
             const last = netWorthData.pop();
             const beforeLast = netWorthData.pop();
-            const beforeBeforeLast = netWorthData.pop();
-            if (+last[2] <= 3 && (+last[2] + +beforeLast[2] + +beforeBeforeLast[2] <= -5)) {
+            if (+last[2] + +beforeLast[2] + +fund.expectGrowth <= -5) {
                 return {
                     name: fund.name,
                     code: fund.code,
@@ -35,7 +34,7 @@ const addStrategys = {
             const netWorthData = [...fund.netWorthData];
             const lastGrowth = +netWorthData.pop()[2];
             const beforeLastGrowth = +netWorthData.pop()[2];
-            if (lastGrowth <= -2 && (lastGrowth + beforeLastGrowth <= -4)) {
+            if (lastGrowth <= -2 && (lastGrowth + +fund.expectGrowth <= -4)) {
                 return {
                     name: fund.name,
                     code: fund.code,
@@ -54,7 +53,7 @@ const addStrategys = {
             const lastGrowth = +netWorthData.pop()[2];
             const beforeLastGrowth = +netWorthData.pop()[2];
             const beforeBeforeLastGrowth = +netWorthData.pop()[2];
-            if (lastGrowth <= -2 && (beforeLastGrowth < 0 || beforeBeforeLastGrowth < 0) && (lastGrowth + beforeLastGrowth + beforeBeforeLastGrowth <= -4)) {
+            if (lastGrowth + beforeLastGrowth + +fund.expectGrowth <= -4) {
                 return {
                     name: fund.name,
                     code: fund.code,
@@ -88,14 +87,13 @@ const reduceStrategys = {
             const netWorthData = [...fund.netWorthData];
             const lastGrowth = +netWorthData.pop()[2];
             const beforeLastGrowth = +netWorthData.pop()[2];
-            if (lastGrowth + beforeLastGrowth >= 5) {
+            if (lastGrowth + +fund.expectGrowth >= 5) {
                 return {
                     name: fund.name,
                     code: fund.code,
                     msg: '建议减仓',
                     operation: 'cut-down',
                     expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
-                    expectGrowth: fund.expectGrowth,// 单位净值日涨幅,单位为百分比
                     desc: `触发减仓策略1:今日预计涨幅${fund.expectGrowth}%,今昨两天涨幅超5%，建议减仓`,
                 };
             }
@@ -108,7 +106,7 @@ const reduceStrategys = {
             const lastGrowth = +netWorthData.pop()[2];
             const beforeLastGrowth = +netWorthData.pop()[2];
             const beforeBeforeLastGrowth = +netWorthData.pop()[2];
-            if (lastGrowth + beforeLastGrowth + beforeBeforeLastGrowth > 5) {
+            if (lastGrowth + beforeLastGrowth + +fund.expectGrowth > 5) {
                 return {
                     name: fund.name,
                     code: fund.code,
