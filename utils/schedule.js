@@ -55,12 +55,13 @@ const send = () => {
             <div>基金代码：${data.code}</div>
             <div>建议: ${data.msg}</div>
             <div style="color:${data.expectGrowth>0 ?'red': 'green'}">预计日涨幅: ${data.expectGrowth}%</div>
+            <div>${data.recent}</div>
             ${data.desc ? `<div  style="color: red">说明: ${data.desc || '-'}</div>` : ''}
         `;
         });
         const mailOptions = {
             from: '785424079@qq.com',
-            to: ['785424079@qq.com', '873001134@qq.com'],
+            to: ['785424079@qq.com',], //  '873001134@qq.com'
             subject: '基金速递',
             text,
         };

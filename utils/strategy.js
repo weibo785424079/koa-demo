@@ -9,6 +9,17 @@
  * 1，今天涨幅超过3%，并且昨天涨幅超过2% 10
  * 2，今天涨幅超过3%，最近一周涨幅超过7% 9
  */
+const moment = require('moment');
+const getRecent = fund => {
+    const today = moment().subtract(30, 'days').format('YYYY-MM-DD');
+    const netWorthData = [...fund.netWorthData];
+    const last = netWorthData.pop()[2]
+    const beforeLast = netWorthData.pop()[2]
+    const beforeBeforeLastGrowth = netWorthData.pop()[2]
+    const hasUpdateToday = fund.expectGrowth === today
+
+    return `近三天涨幅(今天->前天)：${hasUpdateToday?last:fund.expectGrowth}%,${hasUpdateToday?beforeLast:last}%,${hasUpdateToday ? beforeBeforeLastGrowth : beforeLast}%`
+}
 
 const addStrategys = {
     strategy1: (fund) => {
@@ -23,7 +34,8 @@ const addStrategys = {
                     msg: '建议加仓',
                     operation: 'add',
                     expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
-                    desc: `今日预计跌幅${fund.expectGrowth}%,三天内跌幅超5%，建议加仓`,
+                    recent: getRecent(fund),
+                    desc: `触发加仓策略1: 今日预计跌幅${fund.expectGrowth}%,三天内跌幅超5%，建议加仓`,
                 };
             }
         }
@@ -40,8 +52,9 @@ const addStrategys = {
                     code: fund.code,
                     msg: '建议加仓',
                     operation: 'add',
+                    recent: getRecent(fund),
                     expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
-                    desc: `今日预计跌幅${fund.expectGrowth}%,昨今两天跌幅超4%，建议加仓`,
+                    desc: `触发加仓策略2: 今日预计跌幅${fund.expectGrowth}%,昨今两天跌幅超4%，建议加仓`,
                 };
             }
         }
@@ -59,8 +72,9 @@ const addStrategys = {
                     code: fund.code,
                     msg: '建议加仓',
                     operation: 'add',
+                    recent: getRecent(fund),
                     expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
-                    desc: `今日预计跌幅${fund.expectGrowth}%,近三天总跌幅超4%，建议加仓`,
+                    desc: `触发加仓策略3: 今日预计跌幅${fund.expectGrowth}%,近三天总跌幅超4%，建议加仓`,
                 };
             }
         }
@@ -73,6 +87,7 @@ const addStrategys = {
                 code: fund.code,
                 msg: '建议加仓',
                 operation: 'add',
+                recent: getRecent(fund),
                 expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
                 desc: `触发加仓规则4，今日预计跌幅${fund.expectGrowth}%, 跌幅超3%，建议小幅度加仓`,
             };
@@ -93,6 +108,7 @@ const reduceStrategys = {
                     code: fund.code,
                     msg: '建议减仓',
                     operation: 'cut-down',
+                    recent: getRecent(fund),
                     expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
                     desc: `触发减仓策略1:今日预计涨幅${fund.expectGrowth}%,今昨两天涨幅超5%，建议减仓`,
                 };
@@ -112,6 +128,7 @@ const reduceStrategys = {
                     code: fund.code,
                     msg: '建议减仓',
                     operation: 'cut-down',
+                    recent: getRecent(fund),
                     expectGrowth: fund.expectGrowth, // 当前基金单位净值估算日涨幅,单位为百分比
                     desc: `触发减仓策略2:今日预计涨幅${fund.expectGrowth}%,今三天总涨幅超5%，建议减仓`,
                 };
@@ -144,6 +161,7 @@ const getOperation = (fund) => {
         name: fund.name,
         code: fund.code,
         expectGrowth: fund.expectGrowth,
+        recent: getRecent(fund)
     };
 };
 
