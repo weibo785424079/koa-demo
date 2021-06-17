@@ -9,16 +9,14 @@
  * 1，今天涨幅超过3%，并且昨天涨幅超过2% 10
  * 2，今天涨幅超过3%，最近一周涨幅超过7% 9
  */
-const moment = require('moment');
 const getRecent = fund => {
-    const today = moment().subtract(30, 'days').format('YYYY-MM-DD');
     const netWorthData = [...fund.netWorthData];
-    const last = netWorthData.pop()[2]
+    const lastData = netWorthData.pop()
+    const last = lastData[2]
     const beforeLast = netWorthData.pop()[2]
     const beforeBeforeLastGrowth = netWorthData.pop()[2]
-    const hasUpdateToday = fund.expectGrowth === today
-
-    return `近三天涨幅(今天->前天)：${hasUpdateToday?last:fund.expectGrowth}%,${hasUpdateToday?beforeLast:last}%,${hasUpdateToday ? beforeBeforeLastGrowth : beforeLast}%`
+    const hasUpdateToday = fund.netWorthDate === lastData[0]
+    return `近三天涨幅(由近及远)：${hasUpdateToday?last:fund.expectGrowth}%,${hasUpdateToday?beforeLast:last}%,${hasUpdateToday ? beforeBeforeLastGrowth : beforeLast}%`
 }
 
 const addStrategys = {
