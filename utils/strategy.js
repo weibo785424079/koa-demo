@@ -15,7 +15,7 @@ const getRecent = fund => {
     const last = lastData[2]
     const beforeLast = netWorthData.pop()[2]
     const beforeBeforeLastGrowth = netWorthData.pop()[2]
-    const hasUpdateToday = fund.netWorthDate === lastData[0]
+    const hasUpdateToday = fund.netWorthDate >= lastData[0]
     return `近三天涨幅(由近及远)：${hasUpdateToday?last:fund.expectGrowth}%,${hasUpdateToday?beforeLast:last}%,${hasUpdateToday ? beforeBeforeLastGrowth : beforeLast}%`
 }
 
