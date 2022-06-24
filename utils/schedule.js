@@ -4,6 +4,7 @@ const nodemailer = require("nodemailer");
 const axios = require("axios");
 const moment = require("moment");
 const getOperation = require("./strategy");
+const diancan = require('./diancan');
 
 const ins = axios.create();
 
@@ -84,7 +85,8 @@ const send = () => {
     });
   });
 };
-// sending emails at periodic intervals
+
 cron.schedule("*/1 * * * *", send);
+cron.schedule("*/1 * * * *", diancan);
 
 module.exports = send;

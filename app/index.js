@@ -26,4 +26,3 @@ app.on('error', (err, ctx) => {
 app.listen(port, host, () => {
     console.log('server listening on port', port);
 });
-console.log(132)
