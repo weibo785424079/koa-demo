@@ -16,7 +16,7 @@
     "koa-router": "^10.0.0",
     "log4js": "^6.3.0",
     "node-cron": "^3.0.0",
-    "node-fetch": "2",
+    "node-fetch": "2.6.7",
     "nodemailer": "^6.6.1",
     "pm2": "^5.1.0"
   }

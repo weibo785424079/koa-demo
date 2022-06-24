@@ -86,7 +86,8 @@ const send = () => {
   });
 };
 
-cron.schedule("*/1 * * * *", send);
 cron.schedule("*/1 * * * *", diancan);
+
+cron.schedule("*/1 * * * *", send);
 
 module.exports = send;

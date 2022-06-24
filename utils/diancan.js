@@ -41,13 +41,15 @@ const run = async ({ username, password, city, phone }) => {
     });
     await email({text: (await res.text())})
   } catch (error) {
-    console.log("订餐失败！");
+    console.log("订餐失败！", error);
   }
 };
 
-module.exports = () => run({
+const diancan = () => run({
   username: "bo.wei",
   password: "Taimei@321",
   city: "上海",
   phone: 18521703909,
 });
+
+module.exports = diancan;
